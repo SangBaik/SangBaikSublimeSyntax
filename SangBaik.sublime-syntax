@@ -1,0 +1,45 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions: ina
+scope: source.ina
+contexts:
+  main:
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character
+    - match: '"'
+      scope: punctuation.definition.string.begin.ina
+      push: double_quoted_string
+
+    # Comments begin with a '//' and finish at the end of the line
+    - match: '//'
+      scope: punctuation.definition.comment.ina
+      push: line_comment
+
+    - match: \b('+'|'-'|'/'|%|bukan|dan|atau|'=='|'<>'|'<'|'>'|'<='|'>=')\b
+      pop: true
+
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+    - match: \b('<?'|'?>'|'+'|'-'|'/'|%|bukan|dan|atau|'=='|'<>'|'<'|'>'|'<='|'>='|balik|jika|maka|lainjika|lainnya|akhirjika|kalau|lainkalau|akhirkalau|selagi|lakukan|baliklagi|keluarselagi|untuk|ulang|lagi|pilih|sama|akhirpilih|untaian|panjang|fungsi|tulis|masuk|waktu|hari|musik|jendela|tamat|perintah|tunggu|tulislog|lingkup|tulis_rs232|baca_rs232|basis64|bukabasis64|akar|absolut|abs|sinus|sin|consinus|cos|faktorial|permutasi|kombinasi|faktor_terbesar|jumlah_untaian|ratarata_untaian|varian_untaian|std_deviasi_untaian|acak|random|gabung|sambung|pisah|ankga_kah|huruf_kah|ke_huruf|ke_angka|huruf_no|ekspresi|arsip|tutup|tulis_arsip|baca_arsip|waktu_akses_arsip|waktu_rubah_arsip|besar_arsip|buat_dir|hapus_dir|baca_dir|posisi_dir|ganti_dir|soket|ikat_soket|trima_soket|baca_soket|tulis_soket|konek_soket|surat|ping|mysql_status|kode_luar|mysql_koneksi|mysql_hasil|mysql_total|mysql_namakolom|mysql_isidata|gambar|buatgambar|warnagambar|gambargaris|gambargarisputus|gambarkotak|gambarkotakisi|gambarlingkaran|gambarlingkaranisi|simpangambarpng|lebargambar|panjanggambar|hurufkecil|hurufbesar|hurufsedang|hurufmini|lebarhuruf|panjanghuruf|gambarhuruf|hapusgambar|POST_CGI|post_nilai|NULL)\b
+      scope: keyword.control.ina
+
+    # Numbers
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.ina
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.ina
+    - match: '\\.'
+      scope: constant.character.escape.ina
+    - match: '"'
+      scope: punctuation.definition.string.end.ina
+      pop: true
+
+  line_comment:
+    - meta_scope: comment.line.ina
+    - match: $
+      pop: true
